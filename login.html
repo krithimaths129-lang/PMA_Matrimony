@@ -54,7 +54,7 @@
         <!-- LOGIN FORM -->
         <div class="auth-form-container">
 
-            <div class="auth-form">
+        <div class="auth-form auth-view active" id="viewSignIn">
 
                 <a href="landing_page.html" class="back-link">
                     ← Back to PMA
@@ -181,6 +181,257 @@
                 </p>
 
             </div>
+            <div class="auth-form auth-view" id="viewForgot">
+                 <a href="#" class="back-link" id="backToLogin">
+                ← Back to Sign In
+            </a>
+
+            <h2>Reset Password</h2>
+
+            <p class="form-intro" id="forgotIntro">
+                Enter your registered email or mobile number
+                and we'll send you a 6-digit OTP.
+            </p>
+
+
+            <!-- ============================================
+                 STAGE A : IDENTIFIER (email / mobile)
+            ============================================ -->
+
+            <div class="forgot-stage" id="stageIdentifier">
+
+                <div class="form-group">
+
+                    <label for="resetId">
+                        Email or Mobile Number
+                    </label>
+
+                    <input
+                        type="text"
+                        id="resetId"
+                        placeholder="Enter email or 10-digit mobile number"
+                        autocomplete="username"
+                    >
+
+                    <small
+                        class="error-message"
+                        id="resetIdError">
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary auth-submit"
+                    id="sendOtpBtn">
+
+                    Send OTP
+
+                </button>
+
+
+                <div
+                    class="success-message"
+                    id="resetSuccess">
+                </div>
+
+            </div>
+
+
+            <!-- ============================================
+                 STAGE B : OTP (6 boxes)
+            ============================================ -->
+
+            <div class="forgot-stage hidden" id="stageOtp">
+
+                <p class="otp-sent-to">
+                    OTP sent to
+                    <strong id="otpTarget"></strong>
+                </p>
+
+
+                <label class="otp-label">
+                    Enter the 6-digit OTP
+                </label>
+
+
+                <div class="otp-boxes" id="otpBoxes">
+
+                    <input type="text" inputmode="numeric"
+                           maxlength="1" class="otp-input">
+
+                    <input type="text" inputmode="numeric"
+                           maxlength="1" class="otp-input">
+
+                    <input type="text" inputmode="numeric"
+                           maxlength="1" class="otp-input">
+
+                    <input type="text" inputmode="numeric"
+                           maxlength="1" class="otp-input">
+
+                    <input type="text" inputmode="numeric"
+                           maxlength="1" class="otp-input">
+
+                    <input type="text" inputmode="numeric"
+                           maxlength="1" class="otp-input">
+
+                </div>
+
+
+                <small
+                    class="error-message"
+                    id="otpError">
+                </small>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary auth-submit"
+                    id="verifyOtpBtn">
+
+                    Verify &amp; Continue
+
+                </button>
+
+
+                <p class="resend-line">
+
+                    Didn't receive it?
+
+                    <a href="#" id="resendOtp">
+                        Resend OTP
+                    </a>
+
+                    <span id="resendTimer"></span>
+
+                </p>
+
+            </div>
+                        <!-- ============================================
+                 STAGE C : NEW PASSWORD
+            ============================================ -->
+
+            <div class="forgot-stage hidden" id="stageNewPassword">
+
+                <p class="otp-sent-to">
+                    OTP verified for
+                    <strong id="verifiedTarget"></strong>
+                </p>
+
+
+                <div class="form-group">
+
+                    <label for="newPassword">
+                        New Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="newPassword"
+                            placeholder="Create a new password"
+                            autocomplete="new-password"
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('newPassword')">
+
+                            Show
+
+                        </button>
+
+                    </div>
+
+                    <small
+                        class="error-message"
+                        id="newPasswordError">
+                    </small>
+
+                </div>
+
+
+                <div class="form-group">
+
+                    <label for="confirmPassword">
+                        Confirm Password
+                    </label>
+
+                    <div class="password-wrapper">
+
+                        <input
+                            type="password"
+                            id="confirmPassword"
+                            placeholder="Re-enter your new password"
+                            autocomplete="new-password"
+                        >
+
+                        <button
+                            type="button"
+                            class="password-toggle"
+                            onclick="togglePassword('confirmPassword')">
+
+                            Show
+
+                        </button>
+
+                    </div>
+
+                    <small
+                        class="error-message"
+                        id="confirmPasswordError">
+                    </small>
+
+                </div>
+
+
+                <button
+                    type="button"
+                    class="btn btn-primary auth-submit"
+                    id="resetPasswordBtn">
+
+                    Reset Password
+
+                </button>
+
+            </div>
+
+
+            <!-- ============================================
+                 STAGE D : SUCCESS
+            ============================================ -->
+
+            <div class="forgot-stage hidden" id="stageSuccess">
+
+                <div class="reset-success">
+
+                    <div class="reset-success-icon">
+                        ✓
+                    </div>
+
+                    <h3>Password Reset</h3>
+
+                    <p>
+                        Your password has been reset successfully.
+                        You can now sign in with your new password.
+                    </p>
+
+                    <button
+                        type="button"
+                        class="btn btn-primary auth-submit"
+                        id="goToLoginBtn">
+
+                        Back to Sign In
+
+                    </button>
+
+                </div>
+
+            </div>
+            </div>
 
         </div>
 
@@ -191,4 +442,3 @@
 
 </body>
 </html>
-```
