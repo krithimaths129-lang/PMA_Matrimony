@@ -1120,7 +1120,8 @@ function () {
    PREMIUM SPLASH BUFFER
    Intercepts landing page links that lead to
    login.html / signup.html, plays the splash,
-   then navigates.
+   then navigates while still fully opaque so the
+   destination page never flashes the landing page.
 ===================================================== */
 
 (function () {
@@ -1139,21 +1140,47 @@ function () {
 
     if (!links.length) return;
 
+/*
+   If the page is restored from the browser's
+   back-forward cache (e.g. user pressed Back),
+   reset the overlay so the landing page is
+   visible again.
+*/
+
+window.addEventListener("pageshow", function (event) {
+
+    if (event.persisted || overlay.classList.contains("active")) {
+
+        overlay.classList.remove("active");
+        overlay.classList.remove("fade-out");
+        overlay.setAttribute("aria-hidden", "true");
+
+        navigating = false;
+    }
+
+});
 
     let navigating = false;
 
 
-    /* Timings must match the CSS animation delays. */
+    /*
+       Timings must match the CSS animation delays.
 
-    const TOTAL_SPLASH_TIME = 2100; // quote finishes ~1.5s + hold
-    const FADE_OUT_TIME     = 400;  // matches .splash-overlay transition
+       Animations:
+         - letters:  0.20s → 0.70s start, each 0.35s
+         - sub:      starts 1.00s, 0.7s duration  → ends 1.70s
+         - divider:  starts 1.25s, 0.7s duration  → ends 1.95s
+         - quote:    starts 1.50s, 0.9s duration  → ends 2.40s
+    */
+
+    const TOTAL_SPLASH_TIME = 2400; // wait for quote to finish
+
+    const MIN_VISIBLE_TIME  = 200;  // ensure the overlay has painted
 
 
     links.forEach(function (link) {
 
         link.addEventListener("click", function (event) {
-
-            /* Prevent immediate navigation. */
 
             event.preventDefault();
 
@@ -1171,17 +1198,19 @@ function () {
             overlay.setAttribute("aria-hidden", "false");
 
 
-            /* Let the animation finish, then fade out. */
+            /*
+               Navigate while the overlay is STILL fully
+               opaque. Do NOT add .fade-out — that is what
+               caused the landing page to flash through.
+
+               The destination page (login/signup) has the
+               same white/ivory background, so the transition
+               is seamless.
+            */
 
             setTimeout(function () {
 
-                overlay.classList.add("fade-out");
-
-                setTimeout(function () {
-
-                    window.location.href = target;
-
-                }, FADE_OUT_TIME);
+                window.location.href = target;
 
             }, TOTAL_SPLASH_TIME);
 
