@@ -195,167 +195,296 @@ loginForm.addEventListener(
 }
 
 /* =====================================================
-SIGNUP
+SIGNUP — VALIDATION
 ===================================================== */
 
 const signupForm =
-document.getElementById("signupForm");
+    document.getElementById("signupForm");
+
 
 if (signupForm) {
 
-signupForm.addEventListener(
-    "submit",
-    function (event) {
+    /* ---------- HELPER: mark a field red or clear ---------- */
 
-        event.preventDefault();
+    function markError(el) {
+        if (el) el.classList.add("input-error");
+    }
 
-
-        const firstName =
-            document
-                .getElementById("firstName")
-                .value
-                .trim();
+    function clearError(el) {
+        if (el) el.classList.remove("input-error");
+    }
 
 
-        const email =
-            document
-                .getElementById("signupEmail")
-                .value
-                .trim();
+    /* ---------- CLEAR RED ON USER INPUT ---------- */
 
+    /*
+       Whenever the user types/selects something, the red
+       outline for that field is removed immediately.
+    */
 
-        const mobile =
-            document
-                .getElementById("signupMobile")
-                .value
-                .trim();
+    signupForm.addEventListener("input", function (e) {
 
-
-        const age =
-            document.getElementById("age").value;
-
-
-        const gender =
-            document.getElementById("gender").value;
-
-
-        const password =
-            document
-                .getElementById("signupPassword")
-                .value;
-
-
-        const terms =
-            document.getElementById("terms").checked;
-
-
-        const emailError =
-            document.getElementById(
-                "signupEmailError"
-            );
-
-
-        const mobileError =
-            document.getElementById(
-                "signupMobileError"
-            );
-
-
-        const signupError =
-            document.getElementById(
-                "signupError"
-            );
-
-
-        emailError.textContent = "";
-
-        mobileError.textContent = "";
-
-        signupError.textContent = "";
-
-
-        let valid = true;
-
-
-        const emailPattern =
-            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-
-
-        const mobilePattern =
-            /^[6-9]\d{9}$/;
-
-
-        if (!emailPattern.test(email)) {
-
-            emailError.textContent =
-                "Please enter a valid email address.";
-
-            valid = false;
-
-        }
-
-
-        if (!mobilePattern.test(mobile)) {
-
-            mobileError.textContent =
-                "Enter a valid 10-digit mobile number.";
-
-            valid = false;
-
-        }
-
+        const t = e.target;
 
         if (
-            firstName === "" ||
-            age === "" ||
-            gender === "" ||
-            password.length < 6
+            t.matches(
+                "input, select, textarea"
+            )
         ) {
-
-            signupError.textContent =
-                "Please complete all required fields. Password must contain at least 6 characters.";
-
-            valid = false;
-
+            clearError(t);
         }
 
+    });
 
-        if (!terms) {
 
-            signupError.textContent =
-                "Please accept the Terms & Privacy Policy.";
+    signupForm.addEventListener("change", function (e) {
 
-            valid = false;
+        const t = e.target;
 
+        if (
+            t.matches(
+                "input, select, textarea"
+            )
+        ) {
+            clearError(t);
         }
 
-
-        if (!valid) return;
-
-
-        localStorage.setItem(
-            "pmaSignupEmail",
-            email
-        );
+    });
 
 
-        localStorage.setItem(
-            "pmaSignupMobile",
-            mobile
-        );
+    /* ---------- SUBMIT HANDLER ---------- */
+
+    signupForm.addEventListener(
+        "submit",
+        function (event) {
+
+            event.preventDefault();
 
 
-        localStorage.setItem(
-            "pmaSignupName",
-            firstName
-        );
+            /* --- Grab all elements --- */
+
+            const firstName =
+                document.getElementById("firstName");
+
+            const lastName =
+                document.getElementById("lastName");
+
+            const email =
+                document.getElementById("signupEmail");
+
+            const mobile =
+                document.getElementById("signupMobile");
+
+            const age =
+                document.getElementById("age");
+
+            const gender =
+                document.getElementById("gender");
+
+            const password =
+                document.getElementById("signupPassword");
+
+            const terms =
+                document.getElementById("terms");
+
+            const emailError =
+                document.getElementById("signupEmailError");
+
+            const mobileError =
+                document.getElementById("signupMobileError");
+
+            const signupError =
+                document.getElementById("signupError");
+
+            const termsCheck =
+                signupForm.querySelector(".terms-check");
 
 
-        window.location.href =
-            "profile_setup.html";
+            /* --- Reset previous errors --- */
 
-    }
-);
+            emailError.textContent = "";
+            mobileError.textContent = "";
+            if (signupError) signupError.textContent = "";
+
+
+            [
+                firstName,
+                lastName,
+                email,
+                mobile,
+                age,
+                gender,
+                password
+            ].forEach(clearError);
+
+
+            if (termsCheck) {
+                termsCheck.classList.remove("terms-error");
+            }
+
+
+            /* --- Per-field validation --- */
+
+            let valid = true;
+
+
+            /* First name */
+
+            if (firstName.value.trim() === "") {
+                markError(firstName);
+                valid = false;
+            }
+
+
+            /* Last name */
+
+            if (lastName.value.trim() === "") {
+                markError(lastName);
+                valid = false;
+            }
+
+
+            /* Email */
+
+            const emailPattern =
+                /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+            if (!emailPattern.test(email.value.trim())) {
+
+                markError(email);
+
+                emailError.textContent =
+                    "Please enter a valid email address.";
+
+                valid = false;
+            }
+
+
+            /* Mobile — format + verified check */
+
+            const mobilePattern =
+                /^[6-9]\d{9}$/;
+
+            const mobileValue =
+                mobile.value.trim();
+
+            const mobileIsVerified =
+                mobile.classList.contains("verified");
+
+
+            if (!mobilePattern.test(mobileValue)) {
+
+                markError(mobile);
+
+                mobileError.textContent =
+                    "Enter a valid 10-digit mobile number.";
+
+                valid = false;
+
+            } else if (!mobileIsVerified) {
+
+                markError(mobile);
+
+                mobileError.textContent =
+                    "Please verify your mobile number via OTP.";
+
+                valid = false;
+            }
+
+
+            /* Gender */
+
+            if (gender.value === "") {
+                markError(gender);
+                valid = false;
+            }
+
+
+            /* Age */
+
+            const ageValue =
+                Number(age.value);
+
+            if (
+                age.value.trim() === "" ||
+                ageValue < 18 ||
+                ageValue > 80
+            ) {
+                markError(age);
+                valid = false;
+            }
+
+
+            /* Password */
+
+            if (password.value.length < 6) {
+                markError(password);
+                valid = false;
+            }
+
+
+            /* Terms */
+
+            if (!terms.checked) {
+
+                if (termsCheck) {
+                    termsCheck.classList.add("terms-error");
+                }
+
+                valid = false;
+            }
+
+
+            /* --- Stop if anything is wrong --- */
+
+            if (!valid) {
+
+                /* Scroll the first invalid field into view */
+
+                const firstInvalid =
+                    signupForm.querySelector(".input-error");
+
+                if (firstInvalid) {
+
+                    firstInvalid.scrollIntoView({
+                        behavior: "smooth",
+                        block: "center"
+                    });
+
+                    firstInvalid.focus({
+                        preventScroll: true
+                    });
+                }
+
+                return;
+            }
+
+
+            /* =========================
+               SAVE AND REDIRECT
+            ========================= */
+
+            localStorage.setItem(
+                "pmaSignupEmail",
+                email.value.trim()
+            );
+
+            localStorage.setItem(
+                "pmaSignupMobile",
+                mobile.value.trim()
+            );
+
+            localStorage.setItem(
+                "pmaSignupName",
+                firstName.value.trim()
+            );
+
+
+            window.location.href =
+                "profile_setup.html";
+
+        }
+    );
 
 }
 
@@ -983,42 +1112,45 @@ SAVE PROFILE DRAFT
 
 function saveProfileDraft() {
 
+    const form =
+        document.getElementById("profileForm");
 
-const form =
-    document.getElementById(
-        "profileForm"
+    if (!form) return;
+
+
+    /* ---------- Collect form data ---------- */
+
+    const formData = new FormData(form);
+
+    const draft = {};
+
+    formData.forEach(function (value, key) {
+        draft[key] = value;
+    });
+
+
+    /* ---------- Persist ---------- */
+
+    localStorage.setItem(
+        "pmaProfileDraft",
+        JSON.stringify(draft)
     );
 
 
-if (!form) return;
+    /*
+       Set a one-shot flag. The homepage reads this
+       on load, shows the notice, then clears it.
+    */
+
+    localStorage.setItem(
+        "pmaDraftJustSaved",
+        "true"
+    );
 
 
-const formData =
-    new FormData(form);
+    /* ---------- Redirect ---------- */
 
-
-const draft = {};
-
-
-formData.forEach(
-    function (value, key) {
-
-        draft[key] = value;
-
-    }
-);
-
-
-localStorage.setItem(
-    "pmaProfileDraft",
-    JSON.stringify(draft)
-);
-
-
-alert(
-    "Your profile draft has been saved."
-);
-
+    window.location.href = "homepage.html";
 
 }
 
@@ -1048,33 +1180,52 @@ HOMEPAGE PROTECTION
 ===================================================== */
 
 if (
-window.location.pathname.includes(
-"homepage.html"
-)
+    window.location.pathname.includes(
+        "homepage.html"
+    )
 ) {
 
-
-const loggedIn =
-    localStorage.getItem(
-        "pmaLoggedIn"
-    );
-
-
-const profileComplete =
-    localStorage.getItem(
-        "pmaProfileComplete"
-    );
+    const loggedIn =
+        localStorage.getItem(
+            "pmaLoggedIn"
+        );
 
 
-if (
-    !loggedIn &&
-    !profileComplete
-) {
+    const profileComplete =
+        localStorage.getItem(
+            "pmaProfileComplete"
+        );
 
-    window.location.href =
-        "login.html";
 
-}
+    /*
+       Users coming from Save Draft are allowed too.
+       The draft flag is set in saveProfileDraft()
+       and cleared on the homepage after display.
+    */
+
+    const hasDraft =
+        !!localStorage.getItem(
+            "pmaProfileDraft"
+        );
+
+
+    const justSavedDraft =
+        localStorage.getItem(
+            "pmaDraftJustSaved"
+        ) === "true";
+
+
+    if (
+        !loggedIn &&
+        !profileComplete &&
+        !hasDraft &&
+        !justSavedDraft
+    ) {
+
+        window.location.href =
+            "login.html";
+
+    }
 
 }
 
@@ -1689,3 +1840,569 @@ window.addEventListener("pageshow", function (event) {
         if (stageSuccess)     stageSuccess.classList.add("hidden");
 
     }})();
+    /* =====================================================
+   SIGNUP — MOBILE OTP VERIFICATION
+===================================================== */
+
+(function () {
+
+    const signupForm = document.getElementById("signupForm");
+
+    if (!signupForm) return;
+
+
+    /* ---------- ELEMENTS ---------- */
+
+    const mobileInput     = document.getElementById("signupMobile");
+    const mobileError     = document.getElementById("signupMobileError");
+    const sendOtpBtn      = document.getElementById("sendOtpBtn");
+
+    const modal           = document.getElementById("otpModal");
+    const modalClose      = document.getElementById("otpModalClose");
+    const modalTarget     = document.getElementById("otpModalTarget");
+
+    const otpBoxes        = document.querySelectorAll(
+                                "#signupOtpBoxes .otp-input"
+                            );
+
+    const otpError        = document.getElementById("signupOtpError");
+    const verifyOtpSubmit = document.getElementById("verifyOtpSubmit");
+
+    const resendLink      = document.getElementById("signupResendOtp");
+    const resendMsg       = document.getElementById("signupResendMsg");
+
+
+    /* Mobile considered verified only after OTP passes */
+
+    let mobileVerified = false;
+
+
+    /* =================================================
+       OPEN MODAL
+    ================================================= */
+
+    if (sendOtpBtn) {
+
+        sendOtpBtn.addEventListener("click", function () {
+
+            mobileError.textContent = "";
+
+            const value = mobileInput.value.trim();
+
+            const valid = /^[6-9]\d{9}$/.test(value);
+
+            if (!valid) {
+
+                mobileError.textContent =
+                    "Enter a valid 10-digit mobile number.";
+
+                mobileInput.focus();
+
+                return;
+            }
+
+
+            /*
+               FRONTEND DEMO ONLY.
+
+               Backend call needed:
+
+                 POST /api/auth/request-otp
+                 body: { identifier: value }
+            */
+
+
+            modalTarget.textContent = "+91 " + value;
+
+            resendMsg.textContent = "";
+            otpError.textContent = "";
+
+
+            otpBoxes.forEach(function (box) {
+                box.value = "";
+                box.classList.remove("filled");
+            });
+
+
+            modal.classList.add("active");
+            modal.setAttribute("aria-hidden", "false");
+
+
+            setTimeout(function () {
+                if (otpBoxes[0]) otpBoxes[0].focus();
+            }, 120);
+
+        });
+
+    }
+
+
+    /* =================================================
+       CLOSE MODAL
+    ================================================= */
+
+    function closeModal() {
+
+        modal.classList.remove("active");
+        modal.setAttribute("aria-hidden", "true");
+
+    }
+
+
+    if (modalClose) {
+        modalClose.addEventListener("click", closeModal);
+    }
+
+
+    /* Close on backdrop click */
+
+    if (modal) {
+
+        modal.addEventListener("click", function (e) {
+
+            if (e.target === modal) closeModal();
+
+        });
+
+    }
+
+
+    /* Close on Escape key */
+
+    document.addEventListener("keydown", function (e) {
+
+        if (
+            e.key === "Escape" &&
+            modal.classList.contains("active")
+        ) {
+            closeModal();
+        }
+
+    });
+
+
+    /* =================================================
+       OTP BOX BEHAVIOUR
+    ================================================= */
+
+    otpBoxes.forEach(function (input, index) {
+
+        input.addEventListener("input", function () {
+
+            this.value =
+                this.value.replace(/\D/g, "").slice(0, 1);
+
+            this.classList.toggle(
+                "filled",
+                this.value !== ""
+            );
+
+            if (this.value && index < otpBoxes.length - 1) {
+                otpBoxes[index + 1].focus();
+            }
+
+            otpError.textContent = "";
+
+        });
+
+
+        input.addEventListener("keydown", function (e) {
+
+            if (
+                e.key === "Backspace" &&
+                !this.value &&
+                index > 0
+            ) {
+                otpBoxes[index - 1].focus();
+            }
+
+        });
+
+
+        input.addEventListener("paste", function (e) {
+
+            const pasted =
+                (e.clipboardData || window.clipboardData)
+                    .getData("text")
+                    .replace(/\D/g, "")
+                    .slice(0, 6);
+
+            if (!pasted) return;
+
+            e.preventDefault();
+
+            pasted.split("").forEach(function (d, i) {
+                if (otpBoxes[i]) {
+                    otpBoxes[i].value = d;
+                    otpBoxes[i].classList.add("filled");
+                }
+            });
+
+            const next =
+                otpBoxes[Math.min(pasted.length, otpBoxes.length - 1)];
+
+            if (next) next.focus();
+
+        });
+
+    });
+
+
+    /* =================================================
+       VERIFY OTP
+    ================================================= */
+
+    if (verifyOtpSubmit) {
+
+        verifyOtpSubmit.addEventListener("click", function () {
+
+            otpError.textContent = "";
+
+            let otp = "";
+
+            otpBoxes.forEach(function (b) {
+                otp += b.value;
+            });
+
+
+            if (otp.length !== 6) {
+
+                otpError.textContent =
+                    "Please enter all 6 digits of the OTP.";
+
+                return;
+            }
+
+
+            /*
+               FRONTEND DEMO ONLY.
+
+               Backend call needed:
+
+                 POST /api/auth/verify-otp
+                 body: { identifier, otp }
+
+               On success:
+                 - mark mobileVerified = true
+                 - update UI
+                 - close modal
+            */
+
+
+            mobileVerified = true;
+
+
+            /* Green state on the input */
+
+            mobileInput.classList.add("verified");
+
+
+            /* Transform Send OTP → Verified ✓ */
+
+            sendOtpBtn.textContent = "Verified ✓";
+            sendOtpBtn.classList.add("verified");
+            sendOtpBtn.disabled = true;
+
+
+            /* Clear any stale error on the mobile field */
+
+            mobileError.textContent = "";
+
+
+            closeModal();
+
+        });
+
+    }
+
+
+    /* =================================================
+       RESEND OTP
+    ================================================= */
+
+    if (resendLink) {
+
+        resendLink.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            /*
+               Backend call needed:
+
+                 POST /api/auth/request-otp
+                 body: { identifier: value }
+            */
+
+
+            resendMsg.textContent =
+                "OTP has been sent again.";
+
+            setTimeout(function () {
+                resendMsg.textContent = "";
+            }, 3500);
+
+        });
+
+    }
+
+
+    /* =================================================
+       VALIDATE BEFORE SUBMIT
+    ================================================= */
+
+    /*
+       The existing signup submit handler is defined
+       earlier in script.js. We intercept it here and
+       block submission if the mobile isn't verified.
+    */
+
+    signupForm.addEventListener(
+        "submit",
+        function (event) {
+
+            if (!mobileVerified) {
+
+                event.preventDefault();
+                event.stopImmediatePropagation();
+
+                mobileError.textContent =
+                    "Please verify your mobile number via OTP before continuing.";
+
+                mobileInput.focus();
+
+                return false;
+            }
+
+        },
+        true /* capture phase — runs before existing handler */
+    );
+
+})();
+
+/* =====================================================
+   PROFILE SETUP — SCROLL SPY
+   Highlights the progress step matching the
+   section closest to the top of the viewport.
+===================================================== */
+
+(function () {
+
+    const progressBar =
+        document.getElementById("profileProgress");
+
+    if (!progressBar) return;
+
+
+    const steps =
+        progressBar.querySelectorAll(".progress-step");
+
+
+    const sections = Array.from(steps)
+        .map(function (step) {
+            return document.getElementById(step.dataset.target);
+        })
+        .filter(Boolean);
+
+
+    if (!sections.length) {
+
+        console.warn(
+            "[PMA] Scroll spy: no matching sections found. " +
+            "Check that each .progress-step has a data-target " +
+            "matching an existing section id."
+        );
+
+        return;
+    }
+
+
+    /* Pixels from viewport top that counts as "active line" */
+
+    const ACTIVATION_LINE = 160;
+
+
+    function setActiveStep(sectionId) {
+
+        steps.forEach(function (step) {
+
+            step.classList.toggle(
+                "active",
+                step.dataset.target === sectionId
+            );
+
+        });
+
+    }
+
+
+    function updateActiveFromScroll() {
+
+        /*
+           If the user is at (or near) the bottom of the page,
+           force the last section to be active — otherwise the
+           last section (often shorter than the viewport)
+           never triggers the activation line.
+        */
+
+        const scrollBottom =
+            window.innerHeight + window.scrollY;
+
+        const docHeight =
+            document.documentElement.scrollHeight;
+
+        if (scrollBottom >= docHeight - 5) {
+            setActiveStep(sections[sections.length - 1].id);
+            return;
+        }
+
+
+        /*
+           Otherwise: pick the section whose top is
+           closest to the activation line, without
+           going past it.
+        */
+
+        let current = sections[0].id;
+
+        sections.forEach(function (section) {
+
+            const top =
+                section.getBoundingClientRect().top;
+
+            if (top - ACTIVATION_LINE <= 0) {
+                current = section.id;
+            }
+
+        });
+
+        setActiveStep(current);
+
+    }
+
+
+    /* Throttle with requestAnimationFrame */
+
+    let ticking = false;
+
+    window.addEventListener("scroll", function () {
+
+        if (!ticking) {
+
+            window.requestAnimationFrame(function () {
+
+                updateActiveFromScroll();
+                ticking = false;
+
+            });
+
+            ticking = true;
+        }
+
+    }, { passive: true });
+
+
+    /* Recompute on resize too */
+
+    window.addEventListener("resize", updateActiveFromScroll);
+
+
+    /* Run once on load */
+
+    updateActiveFromScroll();
+
+
+    /* Click on a step scrolls to that section */
+
+    steps.forEach(function (step) {
+
+        step.addEventListener("click", function () {
+
+            const target =
+                document.getElementById(step.dataset.target);
+
+            if (!target) return;
+
+            const y =
+                target.getBoundingClientRect().top +
+                window.scrollY -
+                ACTIVATION_LINE + 40;
+
+            window.scrollTo({
+                top: y,
+                behavior: "smooth"
+            });
+
+        });
+
+    });
+
+})();
+
+
+/* =====================================================
+   HOMEPAGE — DRAFT SAVED NOTICE
+===================================================== */
+
+(function () {
+
+    const notice =
+        document.getElementById("draftNotice");
+
+    if (!notice) return;
+
+
+    const closeBtn =
+        document.getElementById("draftNoticeClose");
+
+
+    const flag =
+        localStorage.getItem("pmaDraftJustSaved");
+
+
+    if (flag !== "true") return;
+
+
+    /* Consume the flag immediately so reloads don't reshow it */
+
+    localStorage.removeItem("pmaDraftJustSaved");
+
+
+    /* Reveal */
+
+    notice.style.display = "";
+
+    requestAnimationFrame(function () {
+        notice.classList.add("visible");
+    });
+
+
+    /* Close on button */
+
+    if (closeBtn) {
+
+        closeBtn.addEventListener("click", function () {
+
+            notice.classList.remove("visible");
+
+            setTimeout(function () {
+                notice.style.display = "none";
+            }, 350);
+
+        });
+
+    }
+
+
+    /* Auto-dismiss after 8 seconds */
+
+    setTimeout(function () {
+
+        notice.classList.remove("visible");
+
+        setTimeout(function () {
+            notice.style.display = "none";
+        }, 350);
+
+    }, 8000);
+
+})();
