@@ -9,7 +9,6 @@
           content="width=device-width, initial-scale=1.0">
 
     <title>Create Account | PMA Matrimony</title>
-
     <link rel="stylesheet" href="style.css">
 
 </head>
@@ -127,20 +126,33 @@
 
                 <div class="form-group">
 
-                    <label>Mobile Number</label>
+    <label>Mobile Number</label>
 
-                    <input
-                        type="tel"
-                        id="signupMobile"
-                        placeholder="10-digit mobile number"
-                        maxlength="10">
+    <div class="mobile-row">
 
-                    <small
-                        class="error-message"
-                        id="signupMobileError">
-                    </small>
+        <input
+            type="tel"
+            id="signupMobile"
+            placeholder="10-digit mobile number"
+            maxlength="10">
 
-                </div>
+        <button
+            type="button"
+            class="btn btn-outline send-otp-btn"
+            id="sendOtpBtn">
+
+            Send OTP
+
+        </button>
+
+    </div>
+
+    <small
+        class="error-message"
+        id="signupMobileError">
+    </small>
+
+</div>
 
 
                 <div class="form-row">
@@ -257,6 +269,74 @@
 
 </div>
 
+<!-- =====================================================
+     MOBILE OTP VERIFICATION MODAL
+===================================================== -->
+
+<div class="otp-modal-overlay" id="otpModal" aria-hidden="true">
+
+    <div class="otp-modal" role="dialog" aria-modal="true">
+
+        <button
+            type="button"
+            class="otp-modal-close"
+            id="otpModalClose"
+            aria-label="Close">
+
+            ×
+
+        </button>
+
+
+        <h2 class="otp-modal-title">
+            Verify Your Mobile Number
+        </h2>
+
+        <p class="otp-modal-sub">
+            We've sent a 6-digit verification code to
+            <strong id="otpModalTarget">your mobile number</strong>.
+        </p>
+
+
+        <div class="otp-boxes" id="signupOtpBoxes">
+
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input">
+            <input type="text" inputmode="numeric" maxlength="1" class="otp-input">
+
+        </div>
+
+        <small class="error-message" id="signupOtpError"></small>
+
+
+        <button
+            type="button"
+            class="btn btn-primary auth-submit"
+            id="verifyOtpSubmit">
+
+            Verify OTP
+
+        </button>
+
+
+        <p class="resend-line">
+
+            Didn't receive the code?
+
+            <a href="#" id="signupResendOtp">
+                Resend OTP
+            </a>
+
+            <span id="signupResendMsg"></span>
+
+        </p>
+
+    </div>
+
+</div>
 
 <script src="script.js"></script>
 
