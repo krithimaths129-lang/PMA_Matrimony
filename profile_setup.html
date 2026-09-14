@@ -1,0 +1,1248 @@
+<!DOCTYPE html>
+
+<html lang="en">
+
+<head>
+
+<meta charset="UTF-8">
+
+<meta name="viewport"
+      content="width=device-width, initial-scale=1.0">
+
+<title>Profile Setup | PMA Matrimony</title>
+
+<link rel="stylesheet" href="style.css">
+
+
+</head>
+
+<body class="profile-page">
+
+<!-- ================= HEADER ================= -->
+
+<header class="profile-header">
+
+
+<div class="logo">
+
+    <span class="logo-mark">P</span>
+
+    <div>
+        <h2>PMA</h2>
+        <small>MATRIMONY</small>
+    </div>
+
+</div>
+
+
+<span class="save-text">
+    Your information is private & secure
+</span>
+
+
+</header>
+
+<!-- ================= MAIN ================= -->
+
+<main class="profile-container">
+
+
+<!-- PAGE HEADING -->
+
+<div class="profile-heading">
+
+    <span class="eyebrow">
+        PROFILE SETUP
+    </span>
+
+    <h1>
+        Tell us about
+        <span>yourself.</span>
+    </h1>
+
+    <p>
+        A complete profile helps us discover
+        more meaningful matches for you.
+    </p>
+
+</div>
+
+
+<!-- ================= PROGRESS ================= -->
+
+<div class="profile-progress">
+
+    <div class="progress-step active">
+        <span>1</span>
+        Personal
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>2</span>
+        Education
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>3</span>
+        Lifestyle
+    </div>
+
+    <div class="progress-line"></div>
+
+    <div class="progress-step">
+        <span>4</span>
+        Preferences
+    </div>
+
+</div>
+
+
+<form id="profileForm">
+
+
+    <!-- =================================================
+         01 PERSONAL DETAILS
+    ================================================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <span>01</span>
+
+            <div>
+
+                <h2>Personal Details</h2>
+
+                <p>
+                    Basic information about you.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- NAME -->
+
+            <div class="form-group">
+
+                <label for="profileName">
+                    Full Name *
+                </label>
+
+                <input
+                    type="text"
+                    id="profileName"
+                    placeholder="Your full name">
+
+            </div>
+
+
+            <!-- DATE OF BIRTH -->
+
+            <div class="form-group">
+
+                <label for="dob">
+                    Date of Birth *
+                </label>
+
+                <input
+                    type="text"
+                    id="dob"
+                    placeholder="DD/MM/YYYY"
+                    maxlength="10"
+                    inputmode="numeric">
+
+                <small class="form-hint">
+                    Format: DD/MM/YYYY
+                </small>
+
+                <small
+                    class="error-message"
+                    id="dobError">
+                </small>
+
+            </div>
+
+
+            <!-- GENDER -->
+
+            <div class="form-group">
+
+                <label for="profileGender">
+                    Gender *
+                </label>
+
+                <select id="profileGender">
+
+                    <option value="">
+                        Select gender
+                    </option>
+
+                    <option value="male">
+                        Male
+                    </option>
+
+                    <option value="female">
+                        Female
+                    </option>
+
+                    <option value="other">
+                        Other
+                    </option>
+
+                </select>
+
+            </div>
+
+
+            <!-- RELIGION -->
+
+            <div class="form-group">
+
+                <label for="religion">
+                    Religion
+                </label>
+
+                <select id="religion">
+
+                    <option value="">
+                        Select religion
+                    </option>
+
+                    <option>Hindu</option>
+
+                    <option>Muslim</option>
+
+                    <option>Christian</option>
+
+                    <option>Sikh</option>
+
+                    <option>Jain</option>
+
+                    <option>Buddhist</option>
+
+                    <option>Parsi / Zoroastrian</option>
+
+                    <option>Jewish</option>
+
+                    <option>Other</option>
+
+                    <option>Prefer not to say</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- COMMUNITY -->
+
+            <div class="form-group">
+
+                <label for="community">
+                    Community
+                </label>
+
+                <select id="community">
+
+                    <option value="">
+                        Select community
+                    </option>
+
+                    <optgroup label="Broad Community">
+
+                        <option>Brahmin</option>
+
+                        <option>Kshatriya</option>
+
+                        <option>Vaishya</option>
+
+                        <option>Other Hindu Community</option>
+
+                    </optgroup>
+
+
+                    <optgroup label="Regional / Cultural Communities">
+
+                        <option>Tamil</option>
+
+                        <option>Telugu</option>
+
+                        <option>Kannada</option>
+
+                        <option>Malayali</option>
+
+                        <option>Marathi</option>
+
+                        <option>Gujarati</option>
+
+                        <option>Punjabi</option>
+
+                        <option>Bengali</option>
+
+                        <option>Rajasthani</option>
+
+                        <option>North Indian</option>
+
+                        <option>Other Regional Community</option>
+
+                    </optgroup>
+
+
+                    <optgroup label="Other">
+
+                        <option>Other</option>
+
+                        <option>Prefer not to say</option>
+
+                    </optgroup>
+
+                </select>
+
+            </div>
+
+
+            <!-- MOTHER TONGUE -->
+
+            <div class="form-group">
+
+                <label for="motherTongue">
+                    Mother Tongue
+                </label>
+
+                <select id="motherTongue">
+
+                    <option value="">
+                        Select language
+                    </option>
+
+                    <option>Tamil</option>
+
+                    <option>Telugu</option>
+
+                    <option>Kannada</option>
+
+                    <option>Malayalam</option>
+
+                    <option>Hindi</option>
+
+                    <option>English</option>
+
+                    <option>Marathi</option>
+
+                    <option>Gujarati</option>
+
+                    <option>Bengali</option>
+
+                    <option>Punjabi</option>
+
+                    <option>Odia</option>
+
+                    <option>Assamese</option>
+
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- STATE -->
+
+            <div class="form-group">
+
+                <label for="state">
+                    State / Union Territory *
+                </label>
+
+                <select id="state">
+
+                    <option value="">
+                        Select state / UT
+                    </option>
+
+                    <option>Andhra Pradesh</option>
+                    <option>Arunachal Pradesh</option>
+                    <option>Assam</option>
+                    <option>Bihar</option>
+                    <option>Chhattisgarh</option>
+                    <option>Goa</option>
+                    <option>Gujarat</option>
+                    <option>Haryana</option>
+                    <option>Himachal Pradesh</option>
+                    <option>Jharkhand</option>
+                    <option>Karnataka</option>
+                    <option>Kerala</option>
+                    <option>Madhya Pradesh</option>
+                    <option>Maharashtra</option>
+                    <option>Manipur</option>
+                    <option>Meghalaya</option>
+                    <option>Mizoram</option>
+                    <option>Nagaland</option>
+                    <option>Odisha</option>
+                    <option>Punjab</option>
+                    <option>Rajasthan</option>
+                    <option>Sikkim</option>
+                    <option>Tamil Nadu</option>
+                    <option>Telangana</option>
+                    <option>Tripura</option>
+                    <option>Uttar Pradesh</option>
+                    <option>Uttarakhand</option>
+                    <option>West Bengal</option>
+
+                    <option>Andaman and Nicobar Islands</option>
+                    <option>Chandigarh</option>
+                    <option>Dadra and Nagar Haveli and Daman and Diu</option>
+                    <option>Delhi</option>
+                    <option>Jammu and Kashmir</option>
+                    <option>Ladakh</option>
+                    <option>Lakshadweep</option>
+                    <option>Puducherry</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- CITY -->
+
+            <div class="form-group">
+
+                <label for="city">
+                    City *
+                </label>
+
+                <select id="city">
+
+                    <option value="">
+                        Select city
+                    </option>
+
+                    <option>Chennai</option>
+
+                    <option>Coimbatore</option>
+
+                    <option>Madurai</option>
+
+                    <option>Salem</option>
+
+                    <option>Tiruchirappalli</option>
+
+                    <option>Tiruppur</option>
+
+                    <option>Erode</option>
+
+                    <option>Thanjavur</option>
+
+                    <option>Bengaluru</option>
+
+                    <option>Hyderabad</option>
+
+                    <option>Mumbai</option>
+
+                    <option>Pune</option>
+
+                    <option>Delhi</option>
+
+                    <option>New Delhi</option>
+
+                    <option>Kolkata</option>
+
+                    <option>Ahmedabad</option>
+
+                    <option>Jaipur</option>
+
+                    <option>Lucknow</option>
+
+                    <option>Kochi</option>
+
+                    <option>Thiruvananthapuram</option>
+
+                    <option>Visakhapatnam</option>
+
+                    <option>Vijayawada</option>
+
+                    <option>Bhubaneswar</option>
+
+                    <option>Chandigarh</option>
+
+                    <option>Other Indian City</option>
+
+                    <option>Outside India</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         02 EDUCATION & PROFESSION
+    ================================================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <span>02</span>
+
+            <div>
+
+                <h2>Education & Profession</h2>
+
+                <p>
+                    Tell us about your education and career.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="education">
+                    Highest Education *
+                </label>
+
+                <select id="education">
+
+                    <option value="">
+                        Select education
+                    </option>
+
+                    <option>Higher Secondary</option>
+
+                    <option>Diploma</option>
+
+                    <option>Undergraduate</option>
+
+                    <option>Graduate</option>
+
+                    <option>Post Graduate</option>
+
+                    <option>Doctorate</option>
+
+                    <option>Professional Qualification</option>
+
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="profession">
+                    Profession *
+                </label>
+
+                <input
+                    type="text"
+                    id="profession"
+                    placeholder="e.g. Software Developer">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="company">
+                    Company / Organisation
+                </label>
+
+                <input
+                    type="text"
+                    id="company"
+                    placeholder="Optional">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="income">
+                    Annual Income
+                </label>
+
+                <select id="income">
+
+                    <option value="">
+                        Select income range
+                    </option>
+
+                    <option>Below ₹5 Lakhs</option>
+
+                    <option>₹5 - ₹10 Lakhs</option>
+
+                    <option>₹10 - ₹20 Lakhs</option>
+
+                    <option>₹20 - ₹40 Lakhs</option>
+
+                    <option>₹40 Lakhs+</option>
+
+                    <option>Prefer not to say</option>
+
+                </select>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         03 FAMILY BACKGROUND
+    ================================================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <span>03</span>
+
+            <div>
+
+                <h2>Family Background</h2>
+
+                <p>
+                    Share information about your family.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <div class="form-group">
+
+                <label for="familyType">
+                    Family Type
+                </label>
+
+                <select id="familyType">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Nuclear Family</option>
+
+                    <option>Joint Family</option>
+
+                    <option>Extended Family</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="familyValues">
+                    Family Values
+                </label>
+
+                <select id="familyValues">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Traditional</option>
+
+                    <option>Moderate</option>
+
+                    <option>Liberal</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="siblings">
+                    Siblings
+                </label>
+
+                <select id="siblings">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>None</option>
+
+                    <option>1</option>
+
+                    <option>2</option>
+
+                    <option>3</option>
+
+                    <option>4+</option>
+
+                </select>
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="familyLocation">
+                    Family Location
+                </label>
+
+                <input
+                    type="text"
+                    id="familyLocation"
+                    placeholder="City / State">
+
+            </div>
+
+
+            <div class="form-group full-width">
+
+                <label for="familyAbout">
+                    About Your Family
+                </label>
+
+                <textarea
+                    id="familyAbout"
+                    rows="5"
+                    placeholder="Tell us briefly about your family..."></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         04 LIFESTYLE
+    ================================================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <span>04</span>
+
+            <div>
+
+                <h2>Lifestyle</h2>
+
+                <p>
+                    Help us understand your everyday lifestyle.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- FOOD -->
+
+            <div class="form-group">
+
+                <label for="diet">
+                    Food Preference *
+                </label>
+
+                <select id="diet">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Vegetarian</option>
+
+                    <option>Eggetarian</option>
+
+                    <option>Non-Vegetarian</option>
+
+                    <option>Vegan</option>
+
+                    <option>Jain Vegetarian</option>
+
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- SMOKING -->
+
+            <div class="form-group">
+
+                <label for="smoking">
+                    Smoking
+                </label>
+
+                <select id="smoking">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Never</option>
+
+                    <option>Occasionally</option>
+
+                    <option>Regularly</option>
+
+                    <option>Prefer not to say</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- DRINKING -->
+
+            <div class="form-group">
+
+                <label for="drinking">
+                    Drinking
+                </label>
+
+                <select id="drinking">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Never</option>
+
+                    <option>Occasionally</option>
+
+                    <option>Regularly</option>
+
+                    <option>Prefer not to say</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- FITNESS -->
+
+            <div class="form-group">
+
+                <label for="fitness">
+                    Fitness & Health
+                </label>
+
+                <select id="fitness">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Very Active</option>
+
+                    <option>Active</option>
+
+                    <option>Moderately Active</option>
+
+                    <option>Occasionally Active</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- HOBBIES -->
+
+            <div class="form-group full-width">
+
+                <label for="hobbies">
+                    Hobbies & Interests
+                </label>
+
+                <textarea
+                    id="hobbies"
+                    rows="4"
+                    placeholder="Travel, music, reading, sports, cooking, photography..."></textarea>
+
+            </div>
+
+
+            <!-- ABOUT ME -->
+
+            <div class="form-group full-width">
+
+                <label for="aboutMe">
+                    About Me
+                </label>
+
+                <textarea
+                    id="aboutMe"
+                    rows="5"
+                    placeholder="Tell potential matches a little about yourself..."></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- =================================================
+         05 PARTNER PREFERENCES
+    ================================================= -->
+
+    <section class="profile-section">
+
+        <div class="profile-section-heading">
+
+            <span>05</span>
+
+            <div>
+
+                <h2>Partner Preferences</h2>
+
+                <p>
+                    Tell us what you are looking for in a partner.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <div class="form-grid">
+
+
+            <!-- AGE -->
+
+            <div class="form-group">
+
+                <label for="preferredAgeFrom">
+                    Preferred Age From *
+                </label>
+
+                <input
+                    type="number"
+                    id="preferredAgeFrom"
+                    placeholder="25"
+                    min="18"
+                    max="80">
+
+            </div>
+
+
+            <div class="form-group">
+
+                <label for="preferredAgeTo">
+                    Preferred Age To *
+                </label>
+
+                <input
+                    type="number"
+                    id="preferredAgeTo"
+                    placeholder="32"
+                    min="18"
+                    max="80">
+
+            </div>
+
+
+            <!-- RELIGION -->
+
+            <div class="form-group">
+
+                <label for="preferredReligion">
+                    Preferred Religion
+                </label>
+
+                <select id="preferredReligion">
+
+                    <option value="">
+                        Any
+                    </option>
+
+                    <option>Hindu</option>
+
+                    <option>Muslim</option>
+
+                    <option>Christian</option>
+
+                    <option>Sikh</option>
+
+                    <option>Jain</option>
+
+                    <option>Buddhist</option>
+
+                    <option>Other</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LOCATION -->
+
+            <div class="form-group">
+
+                <label for="preferredLocation">
+                    Preferred Location
+                </label>
+
+                <select id="preferredLocation">
+
+                    <option value="">
+                        Any location
+                    </option>
+
+                    <option>Same City</option>
+
+                    <option>Same State</option>
+
+                    <option>Anywhere in India</option>
+
+                    <option>NRI / Overseas</option>
+
+                    <option>Open to All</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- EDUCATION -->
+
+            <div class="form-group">
+
+                <label for="preferredEducation">
+                    Preferred Education
+                </label>
+
+                <select id="preferredEducation">
+
+                    <option value="">
+                        No preference
+                    </option>
+
+                    <option>Graduate</option>
+
+                    <option>Post Graduate</option>
+
+                    <option>Doctorate</option>
+
+                    <option>Professional Qualification</option>
+
+                    <option>No preference</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PROFESSION -->
+
+            <div class="form-group">
+
+                <label for="preferredProfession">
+                    Preferred Profession
+                </label>
+
+                <input
+                    type="text"
+                    id="preferredProfession"
+                    placeholder="e.g. IT Professional">
+
+            </div>
+
+
+            <!-- FOOD -->
+
+            <div class="form-group">
+
+                <label for="preferredDiet">
+                    Preferred Food Habit
+                </label>
+
+                <select id="preferredDiet">
+
+                    <option value="">
+                        No preference
+                    </option>
+
+                    <option>Vegetarian</option>
+
+                    <option>Eggetarian</option>
+
+                    <option>Non-Vegetarian</option>
+
+                    <option>Vegan</option>
+
+                    <option>No preference</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- FAMILY -->
+
+            <div class="form-group">
+
+                <label for="preferredFamily">
+                    Preferred Family Type
+                </label>
+
+                <select id="preferredFamily">
+
+                    <option value="">
+                        No preference
+                    </option>
+
+                    <option>Nuclear Family</option>
+
+                    <option>Joint Family</option>
+
+                    <option>Either</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- LIFESTYLE -->
+
+            <div class="form-group">
+
+                <label for="preferredLifestyle">
+                    Preferred Lifestyle
+                </label>
+
+                <select id="preferredLifestyle">
+
+                    <option value="">
+                        No preference
+                    </option>
+
+                    <option>Traditional</option>
+
+                    <option>Moderate</option>
+
+                    <option>Modern</option>
+
+                    <option>Flexible</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- MARRIAGE INTENTION -->
+
+            <div class="form-group">
+
+                <label for="marriageIntent">
+                    Looking For
+                </label>
+
+                <select id="marriageIntent">
+
+                    <option value="">
+                        Select
+                    </option>
+
+                    <option>Serious Relationship</option>
+
+                    <option>Marriage</option>
+
+                    <option>Family-Oriented Marriage</option>
+
+                </select>
+
+            </div>
+
+
+            <!-- PREFERENCE DESCRIPTION -->
+
+            <div class="form-group full-width">
+
+                <label for="partnerDescription">
+                    What matters most to you in a partner?
+                </label>
+
+                <textarea
+                    id="partnerDescription"
+                    rows="5"
+                    placeholder="Describe the qualities, values and expectations that matter to you..."></textarea>
+
+            </div>
+
+        </div>
+
+    </section>
+
+
+    <!-- ================= ACTIONS ================= -->
+
+    <div class="profile-actions">
+
+        <button
+            type="button"
+            class="btn btn-outline"
+            onclick="saveProfileDraft()">
+
+            Save Draft
+
+        </button>
+
+
+        <button
+            type="submit"
+            class="btn btn-primary btn-large">
+
+            Complete Profile →
+
+        </button>
+
+    </div>
+
+
+    <div
+        id="profileError"
+        class="profile-form-error">
+    </div>
+
+
+</form>
+
+
+</main>
+
+<script src="script.js"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,194 @@
+
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Login | PMA Matrimony</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body class="auth-page">
+
+    <div class="auth-container">
+
+        <!-- LEFT BRAND SECTION -->
+        <div class="auth-brand">
+
+            <div class="logo auth-logo">
+
+                <span class="logo-mark">P</span>
+
+                <div>
+                    <h2>PMA</h2>
+                    <small>MATRIMONY</small>
+                </div>
+
+            </div>
+
+            <div class="auth-brand-content">
+
+                <span class="eyebrow">
+                    WELCOME BACK
+                </span>
+
+                <h1>
+                    Your journey
+                    <span>continues.</span>
+                </h1>
+
+                <p>
+                    Sign in to discover meaningful connections
+                    and continue your matchmaking journey.
+                </p>
+
+            </div>
+
+        </div>
+
+
+        <!-- LOGIN FORM -->
+        <div class="auth-form-container">
+
+            <div class="auth-form">
+
+                <a href="landing_page.html" class="back-link">
+                    ← Back to PMA
+                </a>
+
+
+                <h2>Welcome Back</h2>
+
+                <p class="form-intro">
+                    Sign in to your PMA Matrimony account.
+                </p>
+
+
+                <form id="loginForm">
+
+                    <!-- EMAIL OR MOBILE -->
+                    <div class="form-group">
+
+                        <label for="loginId">
+                            Email or Mobile Number
+                        </label>
+
+                        <input
+                            type="text"
+                            id="loginId"
+                            placeholder="Enter email or 10-digit mobile number"
+                            autocomplete="username"
+                        >
+
+                        <small
+                            class="error-message"
+                            id="loginIdError">
+                        </small>
+
+                    </div>
+
+
+                    <!-- PASSWORD -->
+                    <div class="form-group">
+
+                        <label for="password">
+                            Password
+                        </label>
+
+                        <div class="password-wrapper">
+
+                            <input
+                                type="password"
+                                id="password"
+                                placeholder="Enter your password"
+                                autocomplete="current-password"
+                            >
+
+                            <button
+                                type="button"
+                                class="password-toggle"
+                                onclick="togglePassword('password')">
+                                Show
+                            </button>
+
+                        </div>
+
+                        <small
+                            class="error-message"
+                            id="passwordError">
+                        </small>
+
+                    </div>
+
+
+                    <!-- OPTIONS -->
+                    <div class="form-options">
+
+                        <label class="remember">
+
+                            <input
+                                type="checkbox"
+                                id="rememberMe"
+                            >
+
+                            <span>Remember me</span>
+
+                        </label>
+
+                        <a href="#" id="forgotPassword">
+                            Forgot password?
+                        </a>
+
+                    </div>
+
+
+                    <!-- LOGIN BUTTON -->
+                    <button
+                        type="submit"
+                        class="btn btn-primary auth-submit">
+                        Sign In
+                        
+                    </button>
+
+
+                    <div
+                        class="success-message"
+                        id="loginSuccess">
+                    </div>
+
+                </form>
+
+
+                <!-- DIVIDER -->
+                <div class="auth-divider">
+                    <span>OR</span>
+                </div>
+
+
+                <!-- SIGN UP -->
+                <p class="signup-text">
+
+                    Don't have an account?
+
+                    <a href="signup.html">
+                        Create Account
+                    </a>
+
+                </p>
+
+            </div>
+
+        </div>
+
+    </div>
+
+
+    <script src="script.js"></script>
+
+</body>
+</html>
+```

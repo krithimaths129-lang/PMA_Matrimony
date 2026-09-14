@@ -1,0 +1,1192 @@
+/* =====================================================
+PMA MATRIMONY
+GLOBAL JAVASCRIPT
+===================================================== */
+
+/* =====================================================
+PASSWORD TOGGLE
+===================================================== */
+
+function togglePassword(inputId) {
+const input =
+    document.getElementById(inputId);
+
+if (!input) return;
+
+const button =
+    input.parentElement.querySelector(
+        ".password-toggle"
+    );
+
+
+if (input.type === "password") {
+
+    input.type = "text";
+
+    button.textContent = "Hide";
+
+} else {
+
+    input.type = "password";
+
+    button.textContent = "Show";
+
+}
+
+}
+
+/* =====================================================
+LOGIN
+===================================================== */
+
+const loginForm =
+document.getElementById("loginForm");
+
+if (loginForm) {
+
+loginForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const loginId =
+            document
+                .getElementById("loginId")
+                .value
+                .trim();
+
+
+        const password =
+            document
+                .getElementById("password")
+                .value;
+
+
+        const loginIdError =
+            document.getElementById(
+                "loginIdError"
+            );
+
+
+        const passwordError =
+            document.getElementById(
+                "passwordError"
+            );
+
+
+        const loginSuccess =
+            document.getElementById(
+                "loginSuccess"
+            );
+
+
+        loginIdError.textContent = "";
+
+        passwordError.textContent = "";
+
+        loginSuccess.textContent = "";
+
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        const mobilePattern =
+            /^[6-9]\d{9}$/;
+
+
+        const validEmail =
+            emailPattern.test(loginId);
+
+
+        const validMobile =
+            mobilePattern.test(loginId);
+
+
+        let valid = true;
+
+
+        if (!validEmail && !validMobile) {
+
+            loginIdError.textContent =
+                "Enter a valid email address or 10-digit mobile number.";
+
+            valid = false;
+
+        }
+
+
+        if (password.length === 0) {
+
+            passwordError.textContent =
+                "Please enter your password.";
+
+            valid = false;
+
+        }
+
+
+        if (!valid) return;
+
+
+        /*
+           FRONTEND DEMO AUTHENTICATION
+
+           Real authentication should later
+           be handled by your Node.js backend.
+        */
+
+        const demoEmail =
+            "demo@pma.com";
+
+        const demoMobile =
+            "9876543210";
+
+        const demoPassword =
+            "PMA@123";
+
+
+        const correctUser =
+            loginId === demoEmail ||
+            loginId === demoMobile;
+
+
+        if (
+            !correctUser ||
+            password !== demoPassword
+        ) {
+
+            passwordError.textContent =
+                "Incorrect login credentials. Please try again.";
+
+            return;
+
+        }
+
+
+        localStorage.setItem(
+            "pmaLoggedIn",
+            "true"
+        );
+
+
+        localStorage.setItem(
+            "pmaUser",
+            loginId
+        );
+
+
+        loginSuccess.textContent =
+            "Login successful. Redirecting...";
+
+
+        setTimeout(function () {
+
+            window.location.href =
+                "homepage.html";
+
+        }, 800);
+
+    }
+);
+
+}
+
+/* =====================================================
+SIGNUP
+===================================================== */
+
+const signupForm =
+document.getElementById("signupForm");
+
+if (signupForm) {
+
+signupForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const firstName =
+            document
+                .getElementById("firstName")
+                .value
+                .trim();
+
+
+        const email =
+            document
+                .getElementById("signupEmail")
+                .value
+                .trim();
+
+
+        const mobile =
+            document
+                .getElementById("signupMobile")
+                .value
+                .trim();
+
+
+        const age =
+            document.getElementById("age").value;
+
+
+        const gender =
+            document.getElementById("gender").value;
+
+
+        const password =
+            document
+                .getElementById("signupPassword")
+                .value;
+
+
+        const terms =
+            document.getElementById("terms").checked;
+
+
+        const emailError =
+            document.getElementById(
+                "signupEmailError"
+            );
+
+
+        const mobileError =
+            document.getElementById(
+                "signupMobileError"
+            );
+
+
+        const signupError =
+            document.getElementById(
+                "signupError"
+            );
+
+
+        emailError.textContent = "";
+
+        mobileError.textContent = "";
+
+        signupError.textContent = "";
+
+
+        let valid = true;
+
+
+        const emailPattern =
+            /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+
+        const mobilePattern =
+            /^[6-9]\d{9}$/;
+
+
+        if (!emailPattern.test(email)) {
+
+            emailError.textContent =
+                "Please enter a valid email address.";
+
+            valid = false;
+
+        }
+
+
+        if (!mobilePattern.test(mobile)) {
+
+            mobileError.textContent =
+                "Enter a valid 10-digit mobile number.";
+
+            valid = false;
+
+        }
+
+
+        if (
+            firstName === "" ||
+            age === "" ||
+            gender === "" ||
+            password.length < 6
+        ) {
+
+            signupError.textContent =
+                "Please complete all required fields. Password must contain at least 6 characters.";
+
+            valid = false;
+
+        }
+
+
+        if (!terms) {
+
+            signupError.textContent =
+                "Please accept the Terms & Privacy Policy.";
+
+            valid = false;
+
+        }
+
+
+        if (!valid) return;
+
+
+        localStorage.setItem(
+            "pmaSignupEmail",
+            email
+        );
+
+
+        localStorage.setItem(
+            "pmaSignupMobile",
+            mobile
+        );
+
+
+        localStorage.setItem(
+            "pmaSignupName",
+            firstName
+        );
+
+
+        window.location.href =
+            "profile_setup.html";
+
+    }
+);
+
+}
+
+/* =====================================================
+DATE VALIDATION - DD/MM/YYYY
+===================================================== */
+
+function isValidDateOfBirth(dateString) {
+
+const pattern =
+    /^(\d{2})\/(\d{2})\/(\d{4})$/;
+
+
+const match =
+    dateString.match(pattern);
+
+
+if (!match) return false;
+
+
+const day =
+    Number(match[1]);
+
+
+const month =
+    Number(match[2]);
+
+
+const year =
+    Number(match[3]);
+
+
+if (
+    month < 1 ||
+    month > 12 ||
+    day < 1 ||
+    day > 31
+) {
+
+    return false;
+
+}
+
+
+const date =
+    new Date(
+        year,
+        month - 1,
+        day
+    );
+
+
+if (
+    date.getFullYear() !== year ||
+    date.getMonth() !== month - 1 ||
+    date.getDate() !== day
+) {
+
+    return false;
+
+}
+
+
+/*
+   Matrimony profile should be 18+.
+*/
+
+const today =
+    new Date();
+
+
+let age =
+    today.getFullYear() - year;
+
+
+const birthdayNotReached =
+    (
+        today.getMonth() < month - 1
+    ) ||
+    (
+        today.getMonth() === month - 1 &&
+        today.getDate() < day
+    );
+
+
+if (birthdayNotReached) {
+
+    age--;
+
+}
+
+
+if (age < 18) {
+
+    return false;
+
+}
+
+
+return true;
+
+}
+
+/* =====================================================
+AUTO FORMAT DOB
+===================================================== */
+
+const dobInput =
+document.getElementById("dob");
+
+if (dobInput) {
+
+dobInput.addEventListener(
+    "input",
+    function () {
+
+        let value =
+            this.value.replace(
+                /\D/g,
+                ""
+            );
+
+
+        if (value.length > 8) {
+
+            value =
+                value.substring(
+                    0,
+                    8
+                );
+
+        }
+
+
+        if (value.length >= 5) {
+
+            value =
+                value.substring(0, 2) +
+                "/" +
+                value.substring(2, 4) +
+                "/" +
+                value.substring(4);
+
+        } else if (value.length >= 3) {
+
+            value =
+                value.substring(0, 2) +
+                "/" +
+                value.substring(2);
+
+        }
+
+
+        this.value = value;
+
+    }
+);
+
+
+}
+
+/* =====================================================
+PROFILE SETUP
+===================================================== */
+
+const profileForm =
+document.getElementById("profileForm");
+
+if (profileForm) {
+
+
+profileForm.addEventListener(
+    "submit",
+    function (event) {
+
+        event.preventDefault();
+
+
+        const profileError =
+            document.getElementById(
+                "profileError"
+            );
+
+
+        const dobError =
+            document.getElementById(
+                "dobError"
+            );
+
+
+        profileError.textContent = "";
+
+        dobError.textContent = "";
+
+
+        let valid = true;
+
+
+        /* BASIC DETAILS */
+
+        const name =
+            document
+                .getElementById("profileName")
+                .value
+                .trim();
+
+
+        const dob =
+            document
+                .getElementById("dob")
+                .value
+                .trim();
+
+
+        const gender =
+            document
+                .getElementById("profileGender")
+                .value;
+
+
+        const state =
+            document
+                .getElementById("state")
+                .value;
+
+
+        const city =
+            document
+                .getElementById("city")
+                .value;
+
+
+        /* EDUCATION */
+
+        const education =
+            document
+                .getElementById("education")
+                .value;
+
+
+        const profession =
+            document
+                .getElementById("profession")
+                .value
+                .trim();
+
+
+        /* LIFESTYLE */
+
+        const diet =
+            document
+                .getElementById("diet")
+                .value;
+
+
+        /* PARTNER PREFERENCES */
+
+        const ageFrom =
+            Number(
+                document
+                    .getElementById(
+                        "preferredAgeFrom"
+                    )
+                    .value
+            );
+
+
+        const ageTo =
+            Number(
+                document
+                    .getElementById(
+                        "preferredAgeTo"
+                    )
+                    .value
+            );
+
+
+        /* =========================
+           REQUIRED VALIDATION
+        ========================= */
+
+
+        if (name === "") {
+
+            profileError.textContent =
+                "Please enter your full name.";
+
+            valid = false;
+
+        }
+
+
+        if (!isValidDateOfBirth(dob)) {
+
+            dobError.textContent =
+                "Please enter a valid date in DD/MM/YYYY format. You must be at least 18 years old.";
+
+            valid = false;
+
+        }
+
+
+        if (gender === "") {
+
+            profileError.textContent =
+                "Please select your gender.";
+
+            valid = false;
+
+        }
+
+
+        if (state === "") {
+
+            profileError.textContent =
+                "Please select your state or union territory.";
+
+            valid = false;
+
+        }
+
+
+        if (city === "") {
+
+            profileError.textContent =
+                "Please select your city.";
+
+            valid = false;
+
+        }
+
+
+        if (education === "") {
+
+            profileError.textContent =
+                "Please select your highest education.";
+
+            valid = false;
+
+        }
+
+
+        if (profession === "") {
+
+            profileError.textContent =
+                "Please enter your profession.";
+
+            valid = false;
+
+        }
+
+
+        if (diet === "") {
+
+            profileError.textContent =
+                "Please select your food preference.";
+
+            valid = false;
+
+        }
+
+
+        if (
+            !ageFrom ||
+            !ageTo
+        ) {
+
+            profileError.textContent =
+                "Please enter your preferred partner age range.";
+
+            valid = false;
+
+        }
+
+
+        if (
+            ageFrom &&
+            ageTo &&
+            (
+                ageFrom < 18 ||
+                ageTo > 80 ||
+                ageFrom > ageTo
+            )
+        ) {
+
+            profileError.textContent =
+                "Please enter a valid preferred age range.";
+
+            valid = false;
+
+        }
+
+
+        if (!valid) {
+
+            window.scrollTo({
+                top: 0,
+                behavior: "smooth"
+            });
+
+            return;
+
+        }
+
+
+        /* =========================
+           SAVE PROFILE DATA
+        ========================= */
+
+        const profileData = {
+
+            name:
+                name,
+
+            dob:
+                dob,
+
+            gender:
+                gender,
+
+            religion:
+                document
+                    .getElementById("religion")
+                    .value,
+
+            community:
+                document
+                    .getElementById("community")
+                    .value,
+
+            motherTongue:
+                document
+                    .getElementById("motherTongue")
+                    .value,
+
+            state:
+                state,
+
+            city:
+                city,
+
+            education:
+                education,
+
+            profession:
+                profession,
+
+            company:
+                document
+                    .getElementById("company")
+                    .value,
+
+            income:
+                document
+                    .getElementById("income")
+                    .value,
+
+            familyType:
+                document
+                    .getElementById("familyType")
+                    .value,
+
+            familyValues:
+                document
+                    .getElementById("familyValues")
+                    .value,
+
+            siblings:
+                document
+                    .getElementById("siblings")
+                    .value,
+
+            familyLocation:
+                document
+                    .getElementById(
+                        "familyLocation"
+                    )
+                    .value,
+
+            familyAbout:
+                document
+                    .getElementById(
+                        "familyAbout"
+                    )
+                    .value,
+
+            lifestyle: {
+
+                diet:
+                    diet,
+
+                smoking:
+                    document
+                        .getElementById("smoking")
+                        .value,
+
+                drinking:
+                    document
+                        .getElementById("drinking")
+                        .value,
+
+                fitness:
+                    document
+                        .getElementById("fitness")
+                        .value,
+
+                hobbies:
+                    document
+                        .getElementById("hobbies")
+                        .value,
+
+                aboutMe:
+                    document
+                        .getElementById("aboutMe")
+                        .value
+
+            },
+
+            preferences: {
+
+                ageFrom:
+                    ageFrom,
+
+                ageTo:
+                    ageTo,
+
+                religion:
+                    document
+                        .getElementById(
+                            "preferredReligion"
+                        )
+                        .value,
+
+                location:
+                    document
+                        .getElementById(
+                            "preferredLocation"
+                        )
+                        .value,
+
+                education:
+                    document
+                        .getElementById(
+                            "preferredEducation"
+                        )
+                        .value,
+
+                profession:
+                    document
+                        .getElementById(
+                            "preferredProfession"
+                        )
+                        .value,
+
+                diet:
+                    document
+                        .getElementById(
+                            "preferredDiet"
+                        )
+                        .value,
+
+                family:
+                    document
+                        .getElementById(
+                            "preferredFamily"
+                        )
+                        .value,
+
+                lifestyle:
+                    document
+                        .getElementById(
+                            "preferredLifestyle"
+                        )
+                        .value,
+
+                marriageIntent:
+                    document
+                        .getElementById(
+                            "marriageIntent"
+                        )
+                        .value,
+
+                description:
+                    document
+                        .getElementById(
+                            "partnerDescription"
+                        )
+                        .value
+
+            }
+
+        };
+
+
+        localStorage.setItem(
+            "pmaProfile",
+            JSON.stringify(profileData)
+        );
+
+
+        localStorage.setItem(
+            "pmaProfileComplete",
+            "true"
+        );
+
+
+        /*
+           For the current frontend prototype,
+           profile completion takes the user
+           to the homepage.
+        */
+
+        window.location.href =
+            "homepage.html";
+
+    }
+);
+
+
+}
+
+/* =====================================================
+SAVE PROFILE DRAFT
+===================================================== */
+
+function saveProfileDraft() {
+
+
+const form =
+    document.getElementById(
+        "profileForm"
+    );
+
+
+if (!form) return;
+
+
+const formData =
+    new FormData(form);
+
+
+const draft = {};
+
+
+formData.forEach(
+    function (value, key) {
+
+        draft[key] = value;
+
+    }
+);
+
+
+localStorage.setItem(
+    "pmaProfileDraft",
+    JSON.stringify(draft)
+);
+
+
+alert(
+    "Your profile draft has been saved."
+);
+
+
+}
+
+/* =====================================================
+LOGOUT
+===================================================== */
+
+function logoutUser() {
+
+
+localStorage.removeItem(
+    "pmaLoggedIn"
+);
+
+localStorage.removeItem(
+    "pmaUser"
+);
+
+window.location.href =
+    "landing_page.html";
+
+
+}
+
+/* =====================================================
+HOMEPAGE PROTECTION
+===================================================== */
+
+if (
+window.location.pathname.includes(
+"homepage.html"
+)
+) {
+
+
+const loggedIn =
+    localStorage.getItem(
+        "pmaLoggedIn"
+    );
+
+
+const profileComplete =
+    localStorage.getItem(
+        "pmaProfileComplete"
+    );
+
+
+if (
+    !loggedIn &&
+    !profileComplete
+) {
+
+    window.location.href =
+        "login.html";
+
+}
+
+}
+
+/* =====================================================
+MOBILE NUMBER INPUT
+===================================================== */
+
+document.addEventListener(
+"DOMContentLoaded",
+function () {
+
+
+    const mobileInputs =
+        document.querySelectorAll(
+            'input[type="tel"]'
+        );
+
+
+    mobileInputs.forEach(
+        function (input) {
+
+            input.addEventListener(
+                "input",
+                function () {
+
+                    this.value =
+                        this.value.replace(
+                            /\D/g,
+                            ""
+                        );
+
+                }
+            );
+
+        }
+    );
+
+}
+
+);
+
+/* =====================================================
+   PREMIUM SPLASH BUFFER
+   Intercepts landing page links that lead to
+   login.html / signup.html, plays the splash,
+   then navigates.
+===================================================== */
+
+(function () {
+
+    const overlay =
+        document.getElementById("splashOverlay");
+
+    if (!overlay) return;
+
+
+    /* Only intercept links on the landing page. */
+
+    const links = document.querySelectorAll(
+        'a[href="login.html"], a[href="signup.html"]'
+    );
+
+    if (!links.length) return;
+
+
+    let navigating = false;
+
+
+    /* Timings must match the CSS animation delays. */
+
+    const TOTAL_SPLASH_TIME = 2100; // quote finishes ~1.5s + hold
+    const FADE_OUT_TIME     = 400;  // matches .splash-overlay transition
+
+
+    links.forEach(function (link) {
+
+        link.addEventListener("click", function (event) {
+
+            /* Prevent immediate navigation. */
+
+            event.preventDefault();
+
+            if (navigating) return;
+            navigating = true;
+
+
+            const target =
+                link.getAttribute("href");
+
+
+            /* Show the overlay. */
+
+            overlay.classList.add("active");
+            overlay.setAttribute("aria-hidden", "false");
+
+
+            /* Let the animation finish, then fade out. */
+
+            setTimeout(function () {
+
+                overlay.classList.add("fade-out");
+
+                setTimeout(function () {
+
+                    window.location.href = target;
+
+                }, FADE_OUT_TIME);
+
+            }, TOTAL_SPLASH_TIME);
+
+        });
+
+    });
+
+})();
