@@ -2430,3 +2430,517 @@ button {
 
     line-height: 1.6;
 }
+/* =====================================================
+   SIGNUP — MOBILE ROW + SEND OTP BUTTON
+===================================================== */
+
+.mobile-row {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+}
+
+.mobile-row input {
+    flex: 1;
+}
+
+
+.send-otp-btn {
+    flex-shrink: 0;
+
+    padding: 0 18px;
+
+    min-height: 52px;
+
+    font-size: 12px;
+    letter-spacing: 0.3px;
+
+    border-radius: 8px;
+
+    white-space: nowrap;
+}
+
+
+/* ---------- VERIFIED STATES ---------- */
+
+.form-group input.verified {
+    border-color: #6f8a6a;
+    background: #f3f8f1;
+    box-shadow: 0 0 0 3px rgba(111, 138, 106, 0.12);
+}
+
+.send-otp-btn.verified {
+    background: #f3f8f1;
+    border-color: #6f8a6a;
+    color: #46613f;
+
+    pointer-events: none;
+    cursor: default;
+
+    box-shadow: none;
+    transform: none;
+}
+
+.send-otp-btn.verified:hover {
+    background: #f3f8f1;
+    border-color: #6f8a6a;
+    transform: none;
+}
+
+
+/* =====================================================
+   OTP VERIFICATION MODAL
+===================================================== */
+
+.otp-modal-overlay {
+    position: fixed;
+    inset: 0;
+
+    z-index: 500;
+
+    background: rgba(23, 22, 21, 0.45);
+    backdrop-filter: blur(4px);
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    padding: 20px;
+
+    opacity: 0;
+    visibility: hidden;
+
+    transition:
+        opacity 0.25s ease,
+        visibility 0.25s ease;
+}
+
+.otp-modal-overlay.active {
+    opacity: 1;
+    visibility: visible;
+}
+
+
+.otp-modal {
+    position: relative;
+
+    width: 100%;
+    max-width: 460px;
+
+    background: white;
+
+    border-radius: 12px;
+
+    padding: 42px 36px 34px;
+
+    box-shadow:
+        0 25px 70px rgba(0, 0, 0, 0.25);
+
+    transform: translateY(12px) scale(0.98);
+    opacity: 0;
+
+    transition:
+        transform 0.3s cubic-bezier(0.2, 0.7, 0.3, 1),
+        opacity 0.3s ease;
+}
+
+.otp-modal-overlay.active .otp-modal {
+    transform: translateY(0) scale(1);
+    opacity: 1;
+}
+
+
+/* ---------- CLOSE BUTTON ---------- */
+
+.otp-modal-close {
+    position: absolute;
+    top: 14px;
+    right: 16px;
+
+    width: 32px;
+    height: 32px;
+
+    border: none;
+    background: transparent;
+
+    font-size: 24px;
+    line-height: 1;
+
+    color: var(--muted);
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background 0.2s ease, color 0.2s ease;
+}
+
+.otp-modal-close:hover {
+    background: var(--cream);
+    color: var(--charcoal);
+}
+
+
+/* ---------- HEADINGS ---------- */
+
+.otp-modal-title {
+    font-family: Georgia, serif;
+    font-weight: 400;
+
+    font-size: 28px;
+
+    margin: 0 0 10px;
+
+    color: var(--charcoal);
+}
+
+.otp-modal-sub {
+    font-size: 14px;
+    line-height: 1.55;
+
+    color: var(--muted);
+
+    margin: 0 0 28px;
+}
+
+.otp-modal-sub strong {
+    color: var(--charcoal);
+    font-weight: 600;
+}
+
+
+/* ---------- OTP BOXES INSIDE MODAL ---------- */
+
+.otp-modal .otp-boxes {
+    margin-bottom: 16px;
+}
+
+.otp-modal .otp-input {
+    width: 54px;
+    height: 60px;
+
+    font-size: 22px;
+
+    border-radius: 8px;
+}
+
+
+/* ---------- RESEND ROW ---------- */
+
+.otp-modal .resend-line {
+    margin-top: 20px;
+    font-size: 13px;
+}
+
+.otp-modal .resend-line span {
+    display: block;
+    margin: 6px 0 0;
+    font-size: 12px;
+    color: #6f8a6a;
+}
+
+
+/* =====================================================
+   MODAL — MOBILE
+===================================================== */
+
+@media (max-width: 520px) {
+
+    .otp-modal {
+        padding: 34px 22px 26px;
+        border-radius: 10px;
+    }
+
+    .otp-modal-title {
+        font-size: 23px;
+    }
+
+    .otp-modal-sub {
+        font-size: 13px;
+        margin-bottom: 22px;
+    }
+
+    .otp-modal .otp-input {
+        width: 100%;
+        height: 52px;
+        font-size: 20px;
+    }
+
+    .mobile-row {
+        flex-direction: column;
+    }
+
+    .send-otp-btn {
+        width: 100%;
+        padding: 14px 18px;
+    }
+}
+/* =====================================================
+   SIGNUP — VALIDATION (RED OUTLINES)
+===================================================== */
+
+/* Red outline on any required field that failed validation */
+
+.form-group input.input-error,
+.form-group select.input-error,
+.form-group textarea.input-error {
+    border-color: #c47a7a;
+    background: #fdf6f6;
+    box-shadow: 0 0 0 3px rgba(196, 122, 122, 0.12);
+}
+
+.form-group input.input-error:focus,
+.form-group select.input-error:focus {
+    border-color: #b86666;
+    box-shadow: 0 0 0 3px rgba(196, 122, 122, 0.2);
+}
+
+
+/* Verified green state should always win over red */
+
+.form-group input.verified {
+    border-color: #6f8a6a;
+    background: #f3f8f1;
+    box-shadow: 0 0 0 3px rgba(111, 138, 106, 0.12);
+}
+
+
+/* ---------- TERMS CHECKBOX ERROR ---------- */
+
+.terms-check.terms-error {
+    color: #b86666;
+}
+
+.terms-check.terms-error span {
+    color: #b86666;
+}
+
+.terms-check.terms-error input[type="checkbox"] {
+    outline: 2px solid #c47a7a;
+    outline-offset: 2px;
+    border-radius: 2px;
+}
+
+
+/* =====================================================
+   SIGNUP — SPACING ABOVE SUBMIT BUTTON
+===================================================== */
+
+/*
+   The signup form's submit button currently sits
+   right below the terms checkbox and the error text.
+   Give it breathing room.
+*/
+
+#signupForm .auth-submit {
+    margin-top: 18px;
+}
+
+#signupForm .terms-check {
+    margin-bottom: 22px;
+}
+
+/* =====================================================
+   PROFILE PROGRESS — STICKY SCROLL SPY
+===================================================== */
+
+.profile-progress {
+    position: sticky;
+    top: 0;
+
+    z-index: 50;
+
+    background: var(--ivory);
+
+    padding: 20px 0;
+
+    margin-bottom: 40px;
+
+    /*
+       Extend the ivory background a bit wider than
+       the content so scrolling sections don't peek
+       through on the sides.
+    */
+
+    box-shadow: 0 1px 0 var(--border);
+}
+
+/* Keep the original centering behaviour */
+
+.profile-progress {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Cleaner hover cue on each step */
+
+.progress-step {
+    cursor: pointer;
+    transition: color 0.25s ease;
+}
+
+.progress-step:hover {
+    color: var(--charcoal);
+}
+
+.progress-step.active {
+    color: var(--charcoal);
+    font-weight: 600;
+}
+
+.progress-step.active span {
+    background: var(--charcoal);
+    color: white;
+    border-color: var(--charcoal);
+}
+
+
+/* =====================================================
+   HOMEPAGE — DRAFT SAVED NOTICE
+===================================================== */
+
+.draft-notice {
+    position: relative;
+
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+
+    padding: 20px 56px 20px 22px;
+
+    background: #fdf8ec;
+
+    border: 1px solid #e6d9b8;
+    border-left: 4px solid var(--bronze);
+
+    border-radius: 8px;
+
+    margin-bottom: 40px;
+
+    opacity: 0;
+    transform: translateY(-8px);
+
+    transition:
+        opacity 0.35s ease,
+        transform 0.35s ease;
+}
+
+.draft-notice.visible {
+    opacity: 1;
+    transform: translateY(0);
+}
+
+
+.draft-notice-icon {
+    flex-shrink: 0;
+
+    width: 34px;
+    height: 34px;
+
+    border-radius: 50%;
+
+    background: var(--bronze);
+    color: white;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    font-size: 15px;
+}
+
+
+.draft-notice-text {
+    flex: 1;
+
+    font-size: 14px;
+    line-height: 1.55;
+
+    color: var(--charcoal);
+}
+
+.draft-notice-text strong {
+    display: block;
+
+    font-weight: 600;
+    font-size: 14px;
+
+    margin-bottom: 3px;
+}
+
+
+.draft-notice-close {
+    position: absolute;
+    top: 12px;
+    right: 14px;
+
+    width: 28px;
+    height: 28px;
+
+    border: none;
+    background: transparent;
+
+    color: var(--muted);
+
+    font-size: 20px;
+    line-height: 1;
+
+    cursor: pointer;
+
+    border-radius: 50%;
+
+    display: flex;
+    align-items: center;
+    justify-content: center;
+
+    transition: background 0.2s ease;
+}
+
+.draft-notice-close:hover {
+    background: rgba(135, 123, 109, 0.12);
+    color: var(--charcoal);
+}
+
+
+/* =====================================================
+   STICKY PROGRESS — MOBILE
+===================================================== */
+
+@media (max-width: 650px) {
+
+    .profile-progress {
+        top: 0;
+
+        padding: 14px 0 14px 12px;
+
+        justify-content: flex-start;
+
+        overflow-x: auto;
+
+        /* Re-enable horizontal scroll for the extra step */
+
+        margin-left: -15px;
+        margin-right: -15px;
+
+        padding-left: 15px;
+        padding-right: 15px;
+
+        box-shadow: 0 1px 0 var(--border);
+    }
+
+    /* Hide the scrollbar but keep scrolling */
+
+    .profile-progress::-webkit-scrollbar {
+        display: none;
+    }
+
+    .profile-progress {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+    }
+}
