@@ -1219,3 +1219,473 @@ window.addEventListener("pageshow", function (event) {
     });
 
 })();
+/* =====================================================
+   AUTH VIEW SWITCHER + FORGOT PASSWORD FLOW
+   Sign In ↔ Forgot Password inside login.html
+===================================================== */
+
+(function () {
+
+    /* ---------------------------------------------
+       VIEW SWITCHER
+    --------------------------------------------- */
+
+    const viewSignIn = document.getElementById("viewSignIn");
+    const viewForgot = document.getElementById("viewForgot");
+
+    /* If we're not on the login page, stop here. */
+    if (!viewSignIn || !viewForgot) return;
+
+
+    const forgotLink  = document.getElementById("forgotPassword");
+    const backToLogin = document.getElementById("backToLogin");
+
+
+    function showView(view) {
+
+        document
+            .querySelectorAll(".auth-view")
+            .forEach(function (v) {
+                v.classList.remove("active");
+            });
+
+        view.classList.add("active");
+
+        window.scrollTo({
+            top: 0,
+            behavior: "smooth"
+        });
+    }
+
+
+    /* "Forgot password?" link → open Forgot view */
+
+    if (forgotLink) {
+
+        forgotLink.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            resetForgotFlow();
+
+            showView(viewForgot);
+
+        });
+
+    }
+
+
+    /* "← Back to Sign In" link → return to login */
+
+    if (backToLogin) {
+
+        backToLogin.addEventListener("click", function (e) {
+
+            e.preventDefault();
+
+            showView(viewSignIn);
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------
+       STAGE A — SEND OTP
+    --------------------------------------------- */
+
+    const sendOtpBtn      = document.getElementById("sendOtpBtn");
+    const resetIdInput    = document.getElementById("resetId");
+    const resetIdError    = document.getElementById("resetIdError");
+    const resetSuccess    = document.getElementById("resetSuccess");
+    const otpTarget       = document.getElementById("otpTarget");
+
+    const stageIdentifier = document.getElementById("stageIdentifier");
+    const stageOtp        = document.getElementById("stageOtp");
+
+
+    const emailPattern  = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    const mobilePattern = /^[6-9]\d{9}$/;
+
+
+    if (sendOtpBtn) {
+
+        sendOtpBtn.addEventListener("click", function () {
+
+            resetIdError.textContent = "";
+            resetSuccess.textContent = "";
+
+            const value = resetIdInput.value.trim();
+
+            const validEmail  = emailPattern.test(value);
+            const validMobile = mobilePattern.test(value);
+
+
+            if (!validEmail && !validMobile) {
+
+                resetIdError.textContent =
+                    "Enter a valid email address or 10-digit mobile number.";
+
+                return;
+            }
+
+
+            /*
+               FRONTEND DEMO ONLY.
+
+               Real OTP generation and delivery must
+               happen on the backend (Node.js):
+
+                 POST /api/auth/request-otp
+                 body: { identifier: value }
+            */
+
+
+            otpTarget.textContent = value;
+
+            resetSuccess.textContent =
+                "OTP sent successfully. Please check your inbox.";
+
+
+            stageIdentifier.classList.add("hidden");
+            stageOtp.classList.remove("hidden");
+
+
+            /* Focus the first OTP box shortly after reveal */
+
+            setTimeout(function () {
+
+                const firstBox =
+                    document.querySelector(".otp-input");
+
+                if (firstBox) firstBox.focus();
+
+            }, 100);
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------
+       STAGE B — OTP INPUT BEHAVIOUR
+    --------------------------------------------- */
+
+    const otpInputs = document.querySelectorAll(".otp-input");
+    const otpError  = document.getElementById("otpError");
+
+
+    if (otpInputs.length) {
+
+        otpInputs.forEach(function (input, index) {
+
+            /* Digits only + auto-advance */
+
+            input.addEventListener("input", function () {
+
+                this.value =
+                    this.value.replace(/\D/g, "").slice(0, 1);
+
+                this.classList.toggle(
+                    "filled",
+                    this.value !== ""
+                );
+
+
+                if (
+                    this.value &&
+                    index < otpInputs.length - 1
+                ) {
+
+                    otpInputs[index + 1].focus();
+
+                }
+
+
+                otpError.textContent = "";
+
+            });
+
+
+            /* Backspace moves focus backward */
+
+            input.addEventListener("keydown", function (e) {
+
+                if (
+                    e.key === "Backspace" &&
+                    !this.value &&
+                    index > 0
+                ) {
+
+                    otpInputs[index - 1].focus();
+
+                }
+
+            });
+
+
+            /* Paste a full 6-digit OTP */
+
+            input.addEventListener("paste", function (e) {
+
+                const pasted =
+                    (
+                        e.clipboardData ||
+                        window.clipboardData
+                    )
+                        .getData("text")
+                        .replace(/\D/g, "")
+                        .slice(0, 6);
+
+
+                if (!pasted) return;
+
+                e.preventDefault();
+
+
+                pasted.split("").forEach(function (digit, i) {
+
+                    if (otpInputs[i]) {
+
+                        otpInputs[i].value = digit;
+
+                        otpInputs[i].classList.add("filled");
+
+                    }
+
+                });
+
+
+                const next =
+                    otpInputs[
+                        Math.min(
+                            pasted.length,
+                            otpInputs.length - 1
+                        )
+                    ];
+
+
+                if (next) next.focus();
+
+            });
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------
+       STAGE B — VERIFY
+    --------------------------------------------- */
+
+    const verifyOtpBtn = document.getElementById("verifyOtpBtn");
+
+
+        if (verifyOtpBtn) {
+
+        verifyOtpBtn.addEventListener("click", function () {
+
+            otpError.textContent = "";
+
+            let otp = "";
+
+
+            otpInputs.forEach(function (i) {
+                otp += i.value;
+            });
+
+
+            if (otp.length !== 6) {
+
+                otpError.textContent =
+                    "Please enter all 6 digits of the OTP.";
+
+                return;
+            }
+
+
+            /*
+               FRONTEND DEMO ONLY.
+
+               Real verification must happen on the backend:
+
+                 POST /api/auth/verify-otp
+                 body: { identifier, otp }
+
+               On success, the backend returns a short-lived
+               reset token that the client stores temporarily.
+            */
+
+
+            /* Remember the identifier for Stage C display */
+
+            const verifiedTarget =
+                document.getElementById("verifiedTarget");
+
+            if (verifiedTarget) {
+                verifiedTarget.textContent =
+                    otpTarget.textContent;
+            }
+
+
+            /* Advance to Stage C */
+
+            stageOtp.classList.add("hidden");
+            stageNewPassword.classList.remove("hidden");
+
+
+            setTimeout(function () {
+
+                const firstPwd =
+                    document.getElementById("newPassword");
+
+                if (firstPwd) firstPwd.focus();
+
+            }, 100);
+
+        });
+
+    }
+        /* ---------------------------------------------
+       STAGE C — RESET PASSWORD
+    --------------------------------------------- */
+
+    const stageNewPassword  =
+        document.getElementById("stageNewPassword");
+
+    const stageSuccess      =
+        document.getElementById("stageSuccess");
+
+    const newPasswordInput  =
+        document.getElementById("newPassword");
+
+    const confirmPasswordInput =
+        document.getElementById("confirmPassword");
+
+    const newPasswordError  =
+        document.getElementById("newPasswordError");
+
+    const confirmPasswordError =
+        document.getElementById("confirmPasswordError");
+
+    const resetPasswordBtn  =
+        document.getElementById("resetPasswordBtn");
+
+
+    if (resetPasswordBtn) {
+
+        resetPasswordBtn.addEventListener("click", function () {
+
+            newPasswordError.textContent = "";
+            confirmPasswordError.textContent = "";
+
+            const pwd     = newPasswordInput.value;
+            const confirm = confirmPasswordInput.value;
+
+            let valid = true;
+
+
+            if (pwd.length < 6) {
+
+                newPasswordError.textContent =
+                    "Password must be at least 6 characters.";
+
+                valid = false;
+            }
+
+
+            if (pwd !== confirm) {
+
+                confirmPasswordError.textContent =
+                    "Passwords do not match.";
+
+                valid = false;
+            }
+
+
+            if (!valid) return;
+
+
+            /*
+               FRONTEND DEMO ONLY.
+
+               Real reset must happen on the backend:
+
+                 POST /api/auth/reset-password
+                 body: { identifier, resetToken, newPassword }
+            */
+
+
+            stageNewPassword.classList.add("hidden");
+            stageSuccess.classList.remove("hidden");
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------
+       STAGE D — BACK TO SIGN IN
+    --------------------------------------------- */
+
+    const goToLoginBtn =
+        document.getElementById("goToLoginBtn");
+
+
+    if (goToLoginBtn) {
+
+        goToLoginBtn.addEventListener("click", function () {
+
+            resetForgotFlow();
+            showView(viewSignIn);
+
+            /* Focus the login ID for convenience */
+
+            const loginIdField =
+                document.getElementById("loginId");
+
+            if (loginIdField) loginIdField.focus();
+
+        });
+
+    }
+
+
+    /* ---------------------------------------------
+       RESET FLOW WHEN RE-ENTERING FORGOT VIEW
+    --------------------------------------------- */
+
+        function resetForgotFlow() {
+
+        if (resetIdInput)  resetIdInput.value = "";
+        if (resetIdError)  resetIdError.textContent = "";
+        if (resetSuccess)  resetSuccess.textContent = "";
+        if (otpError)      otpError.textContent = "";
+
+
+        otpInputs.forEach(function (i) {
+
+            i.value = "";
+            i.classList.remove("filled");
+
+        });
+
+
+        if (newPasswordInput)      newPasswordInput.value = "";
+        if (confirmPasswordInput)  confirmPasswordInput.value = "";
+        if (newPasswordError)      newPasswordError.textContent = "";
+        if (confirmPasswordError)  confirmPasswordError.textContent = "";
+
+
+        const verifiedTarget =
+            document.getElementById("verifiedTarget");
+
+        if (verifiedTarget) verifiedTarget.textContent = "";
+
+
+        if (stageIdentifier)  stageIdentifier.classList.remove("hidden");
+        if (stageOtp)         stageOtp.classList.add("hidden");
+        if (stageNewPassword) stageNewPassword.classList.add("hidden");
+        if (stageSuccess)     stageSuccess.classList.add("hidden");
+
+    }})();
