@@ -1170,7 +1170,7 @@ localStorage.removeItem(
 );
 
 window.location.href =
-    "landing_page.html";
+    "index.html";
 
 
 }
